@@ -5,7 +5,7 @@ import logging
 import os
 import time
 import sys
-import asyncio
+import uasyncio
 from arduino_iot_cloud import ArduinoCloudClient
 from arduino_iot_cloud import Task
 import argparse
@@ -17,7 +17,7 @@ def exception_handler(loop, context):
 
 def on_value_changed(client, value):
     logging.info(f"The answer to life, the universe, and everything is {value}")
-    loop = asyncio.get_event_loop()
+    loop = uasyncio.get_event_loop()
     loop.set_exception_handler(exception_handler)
     sys.exit(0)
 
@@ -26,7 +26,7 @@ def wdt_task(client, ts=[None]):
     if ts[0] is None:
         ts[0] = time.time()
     if time.time() - ts[0] > 5:
-        loop = asyncio.get_event_loop()
+        loop = uasyncio.get_event_loop()
         loop.set_exception_handler(exception_handler)
         logging.error("Timeout waiting for variable")
         sys.exit(1)
